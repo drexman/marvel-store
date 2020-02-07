@@ -1,0 +1,38 @@
+<div class="row" style="margin-top:20px">
+    <div class="col-lg-3">
+        <div class="panel">
+            <h3 class="panel-title">
+                Series
+            </h3>  
+        </div>
+        <ul class="list-group" *ngFor="let s of allSeries | async">
+            <a href="#" class="list-group-item">{{ s.title }}</a>
+        </ul>
+    </div>
+    
+    <div class="col-lg-9" >
+        <div id="inforesult" class="alert alert-dark" role="alert">
+            limite: 20
+        </div>
+        <div class="row">
+            <div *ngFor="let c of allComics | async" class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <a href="#"><img class="mat-card-image" src={{c.thumbnail.path}}.{{c.thumbnail.extension}} alt></a>
+                    <div class="card-body">
+                            <h6 class="card-title">
+                                {{ c.title }}
+                            </h6>
+                    </div>
+                    <div class="card-foot">
+                        <button type="button" class="btn btn-success">
+                            <span class="btn-label">
+                                <i class="glyphicon glyphicon-trash"></i>
+                                Info
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+</div>

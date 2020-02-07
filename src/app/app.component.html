@@ -1,0 +1,45 @@
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <img src="assets/images/spiderman.png" height="50" width="50"/>
+      Marvel
+    </a>
+    
+    <button class="navbar-toggler order-last order-md-0" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse order-last order-md-0" id="navbarResponsive">
+      <ul class="navbar-nav ">
+        <li class="nav-item active">
+          <a class="nav-link" routerLink="/home" >
+            Principal
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/carrinho">
+            Carrinho
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            Contato
+          </a>
+        </li>   
+      </ul>
+    </div> 
+    <form class="form-inline mt-2 mt-md-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="´Pesquisar">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+    </form>  
+  </div>
+</nav>
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
+<footer class="py-5 bg-dark" style="margin-top: 20px;">
+  <div class="container">
+    <p class="m-0 text-center text-white">samuel.oizume@hotmail.com</p>
+  </div>
+</footer>
