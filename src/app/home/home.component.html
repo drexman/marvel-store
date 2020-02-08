@@ -27,30 +27,37 @@
             <input id="page" type="number" [(ngModel)]="page" (ngModelChange)="onChange()"/>
 
             <button id="previous_button" (click)="onClickPrevious()"> 
-                < 
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
             </button> 
-            ({{page}} / {{total_pages}})
-            <button id="next_button" (click)="onClickNext()">
-                >  
+            <span style ="margin-left: 5px; margin-right: 5px;">
+                ( {{page}} / {{total_pages}} )
+            </span>    
+            <button id="next_button"  (click)="onClickNext()">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
             </button>
         </div>
         <div *ngIf ="loading_comics">
             <span class="spinner-border spinner-border-sm mr-1"></span> 
         </div>
-        <div class="row" *ngIf="api.comics_results.length > 0">
+        <div class="row" >
             <div  *ngFor="let c of api.comics_results"  class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100">
                     <a href="#"><img class="mat-card-image" src={{c.thumbnail.path}}.{{c.thumbnail.extension}} alt></a>
                     <div class="card-body">
-                            <h6 class="card-title">
-                                {{ c.title }}
-                            </h6>
+                        <h6 class="card-title">
+                            {{ c.title }} 
+                        </h6>
+
+                        <div *ngFor="let p of c.prices">
+                            <strong>US$ {{ p.price }}</strong>
+                        </div>
+
                     </div>
                     <div class="card-foot">
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#detalhe_comics" (click)="info(c)">
+                        <button type="button" class="btn btn-success" (click)="addShopCart(avisomodal, c)">
                             <span class="btn-label">
-                                <i class="glyphicon glyphicon-trash"></i>
-                                Info
+                                <i class="glyphicon glyphicon-shopping-cart"></i>
+                                Adicionar Carrinho
                             </span>
                         </button>
                     </div>
@@ -60,24 +67,18 @@
     </div>
 </div>
 
-
-<!-- Modal -->
-<div class="modal fade" id="detalhe_comics" tabindex="-1" role="dialog" aria-labelledby="detalhe_comics" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Quadrinhos</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <div *ngIf="comics.length > 0">
-                <ul *ngFor="let c of comics">
-                <li>{{c.name}}</li>
-                </ul>
-            </div>
-        </div>
-      </div>
+<ng-template #avisomodal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Confirmar</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">×</span>
+      </button>
     </div>
-  </div>
+    <div class="modal-body">
+       Deseja adicionar no carrinho ?
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="confirm()">Sim</button>
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('')">Não</button>
+    </div>
+</ng-template>

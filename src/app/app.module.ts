@@ -6,17 +6,22 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { MarvelApiService } from './service/marvel-api.service';
 import { HttpClientModule } from '@angular/common/http';
+import { ShopCartComponent } from './shop-cart/shop-cart.component';
+  
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    ShopCartComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    NgbModule
   ],
   providers: [
     MarvelApiService

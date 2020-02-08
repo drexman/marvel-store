@@ -13,8 +13,8 @@ export class MarvelApiService {
   URL_API = `https://gateway.marvel.com/v1/public/{method}?ts=2&apikey=${this.PUBLIC_KEY}&hash=${this.HASH}`;
 
 
-  series_results:  Observable<any>;
-  comics_results: Observable<any>;
+  series_results: [];
+  comics_results: [];
 
   offset: number;
   limit: number; 
@@ -25,9 +25,9 @@ export class MarvelApiService {
   getAllSeries(){
 
     let promise = new Promise((resolve, reject) => {
-      this.URL_API = this.URL_API.replace("{method}", "series"); 
-      console.log(this.URL_API);
-      this.http.get<any>(this.URL_API)
+      var url = this.URL_API.replace("{method}", "series"); 
+      console.log(url);
+      this.http.get<any>(url)
       .toPromise()
       .then(
         res => {
@@ -42,11 +42,36 @@ export class MarvelApiService {
     return promise;
   }
 
+  getMethod(url)
+  {
+      let promise = new Promise((resolve, reject) => {
+        url = url + "&apikey=" + this.PUBLIC_KEY + "&hash=" +this.HASH;
+
+        this.http.get<any>(url)
+        .toPromise()
+        .then(
+          res => {
+            this.limit = res.data.limit;
+            this.offset = res.data.offset;
+            this.total = res.data.total;
+          
+            console.log(res.data.results.length);
+            this.comics_results = res.data.results;
+            resolve();
+          },
+          msg => {
+            reject(msg);
+          }
+        )
+      });
+    return promise; 
+  }
+
   getComics(limit, offset)
   {
     let  promise = new Promise((resolve, reject) => {
-        this.URL_API = this.URL_API.replace("{method}", "comics");
-        var URL_WITH_FILTER = this.URL_API;
+        var url = this.URL_API.replace("{method}", "comics");
+        var URL_WITH_FILTER = url;
 
         if(limit > 0)
         {
@@ -81,9 +106,9 @@ export class MarvelApiService {
 
   getAllComics(){
     let promise = new Promise((resolve, reject) => {
-      this.URL_API = this.URL_API.replace("{method}", "comics");
-      console.log(this.URL_API);
-      this.http.get<any>(this.URL_API)
+      var url = this.URL_API.replace("{method}", "comics");
+      console.log(url);
+      this.http.get<any>(url)
     .toPromise()
     .then( 
         res => {
