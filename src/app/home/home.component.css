@@ -11,3 +11,28 @@ img.mat-card-image {
     height: 300px;
     width: 253px;
 }
+
+.card-foot {
+    padding: 10px;
+}
+
+#limite {
+    margin: 5px;
+}
+
+#page {
+    height: 25px;
+    width: 50px;
+}
+
+#previous_button {
+    margin-left: 10px;
+    width: 25px;
+    height: 28px;
+}
+
+#next_button { 
+    margin-left: 5px;
+    width: 25px;
+    height: 28px;
+}

@@ -5,17 +5,40 @@
                 Series
             </h3>  
         </div>
-        <ul class="list-group" *ngFor="let s of allSeries | async">
+        <div *ngIf ="loading_series">
+            <span class="spinner-border spinner-border-sm mr-1"></span> 
+        </div>
+        <ul class="list-group" *ngFor="let s of api.series_results">
             <a href="#" class="list-group-item">{{ s.title }}</a>
         </ul>
     </div>
     
     <div class="col-lg-9" >
         <div id="inforesult" class="alert alert-dark" role="alert">
-            limite: 20
+            Mostrar:
+            <select id="limite" (change)="onSelectLimite($event.target.value)">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20" selected>20</option>
+                <option value="30">30</option>
+            </select>
+            Página :
+            <input id="page" type="number" [(ngModel)]="page" (ngModelChange)="onChange()"/>
+
+            <button id="previous_button" (click)="onClickPrevious()"> 
+                < 
+            </button> 
+            ({{page}} / {{total_pages}})
+            <button id="next_button" (click)="onClickNext()">
+                >  
+            </button>
         </div>
-        <div class="row">
-            <div *ngFor="let c of allComics | async" class="col-lg-4 col-md-6 mb-4">
+        <div *ngIf ="loading_comics">
+            <span class="spinner-border spinner-border-sm mr-1"></span> 
+        </div>
+        <div class="row" *ngIf="api.comics_results.length > 0">
+            <div  *ngFor="let c of api.comics_results"  class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100">
                     <a href="#"><img class="mat-card-image" src={{c.thumbnail.path}}.{{c.thumbnail.extension}} alt></a>
                     <div class="card-body">
@@ -24,7 +47,7 @@
                             </h6>
                     </div>
                     <div class="card-foot">
-                        <button type="button" class="btn btn-success">
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#detalhe_comics" (click)="info(c)">
                             <span class="btn-label">
                                 <i class="glyphicon glyphicon-trash"></i>
                                 Info
@@ -36,3 +59,25 @@
         </div>    
     </div>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="detalhe_comics" tabindex="-1" role="dialog" aria-labelledby="detalhe_comics" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Quadrinhos</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div *ngIf="comics.length > 0">
+                <ul *ngFor="let c of comics">
+                <li>{{c.name}}</li>
+                </ul>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
