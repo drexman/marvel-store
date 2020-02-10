@@ -1,15 +1,23 @@
 <div class="row" style="margin-top:20px">
     <div class="col-lg-3">
-        <div class="panel">
-            <h3 class="panel-title">
-                Series
-            </h3>  
+        <div class="card-body row search-serie">
+            <input type="search" [(ngModel)]="title" (keydown)="onKeydown($event)" class="form-control" placeholder="Buscar serie">
+            <span class="input-group-append">
+                <button class="btn btn-primary" type="button" (click)="getSerieByTitle()">
+                <i class="fa fa-search"></i>
+                </button>
+            </span>
         </div>
         <div *ngIf ="loading_series">
             <span class="spinner-border spinner-border-sm mr-1"></span> 
+        </div>  
+        <div class="panel">
+            <h3 class="panel-title">
+                Series
+            </h3>
         </div>
         <ul class="list-group" *ngFor="let s of api.series_results">
-            <a href="#" class="list-group-item">{{ s.title }}</a>
+            <a (click)="getComicsBySerie( s.id )" class="list-group-item">{{ s.title  }}</a>
         </ul>
     </div>
     
@@ -26,15 +34,19 @@
             Página :
             <input id="page" type="number" [(ngModel)]="page" (ngModelChange)="onChange()"/>
 
-            <button id="previous_button" (click)="onClickPrevious()"> 
-                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            </button> 
+            <a id="previous_button" (click)="onClickPrevious()"> 
+                <span>
+                    <i class="fa fa-chevron-circle-left fa-lg"></i>
+                </span>
+            </a> 
             <span style ="margin-left: 5px; margin-right: 5px;">
                 ( {{page}} / {{total_pages}} )
             </span>    
-            <button id="next_button"  (click)="onClickNext()">
-                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            </button>
+            <a id="next_button" (click)="onClickNext()">
+                <span>
+                    <i class="fa fa-chevron-circle-right fa-lg"></i>
+                </span>
+            </a>
         </div>
         <div *ngIf ="loading_comics">
             <span class="spinner-border spinner-border-sm mr-1"></span> 
@@ -49,14 +61,14 @@
                         </h6>
 
                         <div *ngFor="let p of c.prices">
-                            <strong>US$ {{ p.price }}</strong>
+                            <strong>US {{ p.price | currency }}</strong>
                         </div>
 
                     </div>
                     <div class="card-foot">
-                        <button type="button" class="btn btn-success" (click)="addShopCart(avisomodal, c)">
+                        <button class="addShopCart" type="button" class="btn btn-success" (click)="addShopCart(avisomodal, c)">
                             <span class="btn-label">
-                                <i class="glyphicon glyphicon-shopping-cart"></i>
+                                <i class="fa fa-shopping-cart fa-lg"></i>
                                 Adicionar Carrinho
                             </span>
                         </button>
@@ -76,9 +88,12 @@
     </div>
     <div class="modal-body">
        Deseja adicionar no carrinho ?
+       <br/><br/>
+       {{comic.title }}
+       <br/>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="confirm()">Sim</button>
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close('')">Não</button>
+      <button type="button" class="btn btn-success" (click)="confirm()">Sim</button>
+      <button type="button" class="btn btn-danger" (click)="modal.close('')">Não</button>
     </div>
 </ng-template>

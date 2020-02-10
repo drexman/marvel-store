@@ -1,1 +1,52 @@
-<p>shop-cart works!</p>
+<div class="row shopcarts">
+    <div class="col-lg-12" >
+        <h3>Compras</h3>
+        <table class="table table-bordered  table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th class="text-center">ID</th>
+                    <th class="text-center">Título </th>
+                    <th class="text-center">Total página</th>
+                    <th class="text-center">Quant.</th>
+                    <th class="text-center">Preço</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let comic of comics">
+                    <td>{{comic.id}}</td>
+                    <td>{{comic.title}}</td>
+                    <td class="text-center">{{comic.pageCount}}</td>
+                    <td class="text-center">1</td>
+                    <td>
+                        <span *ngFor="let price of comic.prices">
+                            US {{ price.price | currency }}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger" type="button" (click)="removeBuy(avisomodal, comic)">
+                            <i class="fa fa-remove"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div></div>
+</div>
+
+<ng-template #avisomodal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Confirmar</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+       Deseja remover do carrinho?
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success" (click)="remove()">Sim</button>
+      <button type="button" class="btn btn-danger" (click)="modal.close('')">Não</button>
+    </div>
+</ng-template>
